@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useCounterStore } from '@/stores/invoiceStore.js'
 const store = useCounterStore()
 const { guestData } = store
-const { paymentTotal } = storeToRefs(store)
+const { paymentTotal, paymentTotalWithDiscount } = storeToRefs(store)
 const tableData = guestData.items
 </script>
 <template>
@@ -31,24 +31,32 @@ const tableData = guestData.items
 
   <table class="ml-auto mt-2">
     <tr>
-      <td>USD:</td>
-      <td class="text-right font-semibold">{{ paymentTotal + ' $' }}</td>
+      <td class="pr-4">USD:</td>
+      <td class="text-right font-semibold">{{ Number(paymentTotal).toFixed(2) + ' $' }}</td>
     </tr>
     <tr class="border-b">
-      <td>VND:</td>
+      <td class="pr-4">VND:</td>
       <td class="text-right font-semibold">
         {{
-          (paymentTotal * 23000).toLocaleString('vi-VN', {
+          (Number(paymentTotal).toFixed(0) * 23000).toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND'
           })
         }}
       </td>
     </tr>
+    <tr class="border-b">
+      <td class="pr-4">DISCOUNT:</td>
+      <td class="text-right font-semibold">
+        {{ guestData.discount }} {{ guestData.discountType ? '%' : '$' }}
+      </td>
+    </tr>
 
     <tr class="w-full">
-      <td>TOTAL:</td>
-      <td class="text-right font-semibold" colspan="2">{{ paymentTotal + ' $' }}</td>
+      <td class="pr-4 font-semibold text-lg">TOTAL:</td>
+      <td class="text-right font-semibold text-lg" colspan="2">
+        {{ paymentTotalWithDiscount + ' $' }}
+      </td>
     </tr>
   </table>
 </template>
