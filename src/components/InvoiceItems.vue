@@ -1,40 +1,54 @@
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia'
+
 import { useCounterStore } from '@/stores/invoiceStore.js'
-import { ref } from 'vue'
 const store = useCounterStore()
-const tableData = store.guestData.items
-const payment = ref({
-  total: tableData.reduce((acc, item) => acc + Number(item.amount.split(' ')[0]), 0)
-})
-console.log(tableData)
+const { guestData } = store
+const { paymentTotal } = storeToRefs(store)
+const tableData = guestData.items
 </script>
 <template>
-  <el-table :data="tableData" border style="width: 100%">
+  <el-table border :data="tableData" style="width: 100%">
     <el-table-column prop="name" label="Items" width="400" />
-    <el-table-column prop="price" label="Price" />
+    <el-table-column prop="price" label="Price"
+      ><template #default="scope">
+        <div class="flex flex-row justify-between">
+          <span>$</span>
+          <span>{{ scope.row.price }}</span>
+        </div>
+      </template></el-table-column
+    >
     <el-table-column prop="qty" label="QTY" width="60" class="text-center" />
-    <el-table-column prop="amount" label="AMT" />
+    <el-table-column prop="amount" label="AMT"
+      ><template #default="scope">
+        <div class="flex flex-row justify-between">
+          <span>$</span>
+          <span>{{ scope.row.amount }}</span>
+        </div>
+      </template></el-table-column
+    >
   </el-table>
-  <div class="flex flex-col items-end mt-4">
-    <div class="text-base grid grid-cols-4 w-40">
-      <span class="col-span-2 text-right mr-2">USD: </span>
-      <span class="font-semibold col-span-2 text-right">{{ payment.total + ' $' }}</span>
-    </div>
-    <div class="text-base grid grid-cols-4 w-40">
-      <span class="col-span-2 text-right mr-2">VND: </span>
-      <span class="font-semibold col-span-2 text-right">{{
-        (payment.total * 23000).toLocaleString('vi-VN', {
-          style: 'currency',
-          currency: 'VND'
-        })
-      }}</span>
-    </div>
-    <el-divider class="!w-40 !my-2" />
-    <div class="flex flex-col items-end">
-      <div class="text-base grid grid-cols-4 w-40">
-        <span class="col-span-2 text-right mr-2 text-lg">TOTAL: </span>
-        <span class="font-semibold col-span-2 text-right text-lg">{{ payment.total + ' $' }}</span>
-      </div>
-    </div>
-  </div>
+
+  <table class="ml-auto mt-2">
+    <tr>
+      <td>USD:</td>
+      <td class="text-right font-semibold">{{ paymentTotal + ' $' }}</td>
+    </tr>
+    <tr class="border-b">
+      <td>VND:</td>
+      <td class="text-right font-semibold">
+        {{
+          (paymentTotal * 23000).toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+          })
+        }}
+      </td>
+    </tr>
+
+    <tr class="w-full">
+      <td>TOTAL:</td>
+      <td class="text-right font-semibold" colspan="2">{{ paymentTotal + ' $' }}</td>
+    </tr>
+  </table>
 </template>
