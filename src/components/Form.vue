@@ -67,6 +67,24 @@ function onDeleteItem(itemIndex) {
     <el-form-item label="Hotel pick up">
       <el-input v-model="guestData.note" :rows="2" type="textarea" placeholder="Note..." />
     </el-form-item>
+
+    <el-form-item label="Discount">
+      <div class="flex flex-row flex-nowrap items-center w-full">
+        <el-switch
+          v-model="guestData.discountType"
+          class="mr-2"
+          inline-prompt
+          style="--el-switch-on-color: #13ce66; --el-switch-off-color: #409eff"
+          active-text="%"
+          inactive-text="$"
+        /><el-input
+          v-model="guestData.discount"
+          type="text"
+          class="flex-1"
+          placeholder="Enter (%) or fixed amount ($)"
+        />
+      </div>
+    </el-form-item>
   </el-form>
   <el-divider />
   <el-form label-width="auto" style="max-width: 600px" class="flex flex-col">

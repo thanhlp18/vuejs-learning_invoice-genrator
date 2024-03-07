@@ -9,6 +9,8 @@ export const useCounterStore = defineStore('invoice', () => {
     numberOfGuests: 0,
     hotel: '',
     note: '',
+    discountType: true, // true for percentage, false for fixed amount
+    discount: '',
     items: []
   })
 
@@ -25,8 +27,18 @@ export const useCounterStore = defineStore('invoice', () => {
 
   // Getters
   const paymentTotal = computed(() => {
-    return guestData.value.items.reduce((acc, item) => acc + item.price, 0)
+    return guestData.value.items.reduce((acc, item) => acc + item.price * item.qty, 0)
   })
 
-  return { guestData, addItem, deleteItem, paymentTotal }
+  const paymentTotalWithDiscount = computed(() => {
+    const total = paymentTotal.value
+    if (total === 0) return 0
+    if (!guestData.value.discountType && guestData.value.discount > total) return 0
+    const discountPrice = guestData.value.discountType
+      ? total - (total * guestData.value.discount) / 100
+      : total - guestData.value.discount
+    return Number(discountPrice)
+  })
+
+  return { guestData, addItem, deleteItem, paymentTotal, paymentTotalWithDiscount }
 })
