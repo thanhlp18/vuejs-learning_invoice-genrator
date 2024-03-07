@@ -23,6 +23,7 @@ export const useCounterStore = defineStore('invoice', () => {
 
   function deleteItem(index) {
     guestData.value.items.splice(index, 1)
+    if (guestData.value.items.length === 0) guestData.value.discount = ''
   }
 
   // Getters
