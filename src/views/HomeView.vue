@@ -38,7 +38,7 @@ function printInvoice() {
 
 function exportInvoiceToImage() {
   domtoimage
-    .toJpeg(document.getElementById('my-invoice'), { quality: 0.95 })
+    .toJpeg(document.getElementById('my-invoice-image'), { quality: 1 })
     .then(function (dataUrl) {
       var link = document.createElement('a')
       link.download = 'my-image-name.jpeg'
@@ -101,7 +101,7 @@ base('Tour suggest')
         <el-aside width="400px">
           <Form />
         </el-aside>
-        <div class="my-2 absolute right-0 -top-4">
+        <div class="my-2 absolute right-5 -top-4">
           <el-button class="flex flex-row" type="primary" @click="printInvoice">
             <span class="mr-2">Print</span> <el-icon><Printer /> </el-icon>
           </el-button>
@@ -109,8 +109,8 @@ base('Tour suggest')
             <span class="mr-2">Export to image</span> <el-icon><Printer /> </el-icon>
           </el-button>
         </div>
-        <el-main id="my-invoice" class="">
-          <InvoiceGenerator />
+        <el-main id="my-invoice" class="mt-2">
+          <InvoiceGenerator id="my-invoice-image" />
         </el-main>
       </el-container>
     </div>
