@@ -23,6 +23,7 @@ function printInvoice() {
 <html>
   <head>
     ${stylesHtml}
+    <link rel="stylesheet" crossorigin href="https://vuejs-learning-invoice-genrator.onrender.com/assets/index-Z9CRwAF2.css">
   </head>
   <body>
     ${prtHtml}
