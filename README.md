@@ -30,6 +30,6 @@ Learning Vue JS project: Build a invoice generator with suggest next tour for cl
 
 - Feature 1: Generate invoice base on data input on Airtable (incoming)
 - Feature 2: Generate invoice manually base user input data
-- Feature 3: Suggest next tour in invoice for client (incoming)
+- Feature 3: Suggest next tour in invoice for client 
 - Feature 4: Print invoice to pdf
-- Feature 5: Export invoice to png (incoming)
+- Feature 5: Export invoice to png 
