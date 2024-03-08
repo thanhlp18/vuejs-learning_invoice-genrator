@@ -19,18 +19,24 @@ function printInvoice() {
     'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0'
   )
 
+  if (!WinPrint) {
+    alert('Please allow popups to print the invoice.')
+    return
+  }
+
   WinPrint.document.write(`<!DOCTYPE html>
 <html>
   <head>
     ${stylesHtml}
-    <link rel="stylesheet" crossorigin href="https://vuejs-learning-invoice-genrator.onrender.com/assets/index-Z9CRwAF2.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/thanhlp18/vuejs-learning_invoice-genrator/main/dist/assets/index-GA9b66qu.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://raw.githubusercontent.com/thanhlp18/vuejs-learning_invoice-genrator/main/dist/assets/index-GA9b66qu.css"></noscript>
   </head>
   <body>
     ${prtHtml}
   </body>
 </html>`)
 
-  WinPrint.document.close()
+  // WinPrint.document.close()
   WinPrint.focus()
   WinPrint.print()
   WinPrint.close()
