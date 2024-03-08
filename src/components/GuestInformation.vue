@@ -1,6 +1,6 @@
 <script setup>
-import { useCounterStore } from '@/stores/invoiceStore.js'
-const store = useCounterStore()
+import { useInvoiceStore } from '@/stores/invoiceStore.js'
+const store = useInvoiceStore()
 const guestData = store.guestData
 </script>
 
