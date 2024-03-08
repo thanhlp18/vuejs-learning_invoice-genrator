@@ -6,40 +6,26 @@ import { useInvoiceStore } from '@/stores/invoiceStore.js'
 import domtoimage from 'dom-to-image'
 
 function printInvoice() {
-  const prtHtml = document.getElementById('my-invoice').innerHTML
+  domtoimage.toSvg(document.getElementById('my-invoice')).then(function (dataUrl) {
+    const svgElement = dataUrl.replace('data:image/svg+xml;charset=utf-8,', '')
+    const WinPrint = window.open(
+      '',
+      '',
+      'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0'
+    )
+    WinPrint.document.write(`<!DOCTYPE html>
+ <html>
+     <title>Client invoice</title>
+   <body>
+    ${svgElement}
+   </body>
+ </html>`)
 
-  let stylesHtml = ''
-  for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
-    stylesHtml += node.outerHTML
-  }
-
-  const WinPrint = window.open(
-    '',
-    '',
-    'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0'
-  )
-
-  if (!WinPrint) {
-    alert('Please allow popups to print the invoice.')
-    return
-  }
-
-  WinPrint.document.write(`<!DOCTYPE html>
-<html>
-  <head>
-    ${stylesHtml}
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/thanhlp18/vuejs-learning_invoice-genrator/main/dist/assets/index-GA9b66qu.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://raw.githubusercontent.com/thanhlp18/vuejs-learning_invoice-genrator/main/dist/assets/index-GA9b66qu.css"></noscript>
-  </head>
-  <body>
-    ${prtHtml}
-  </body>
-</html>`)
-
-  // WinPrint.document.close()
-  WinPrint.focus()
-  WinPrint.print()
-  WinPrint.close()
+    WinPrint.document.close()
+    WinPrint.focus()
+    WinPrint.print()
+    WinPrint.close()
+  })
 }
 
 function exportInvoiceToImage() {
