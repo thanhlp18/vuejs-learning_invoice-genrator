@@ -1,10 +1,12 @@
 <script setup>
-import { useCounterStore } from '@/stores/invoiceStore.js'
+import { useInvoiceStore } from '@/stores/invoiceStore.js'
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 // access the `store` variable anywhere in the component ✨
-const store = useCounterStore()
+const store = useInvoiceStore()
 // do not use same name with ref
-const { addItem, deleteItem, guestData } = store
+const { addItem, deleteItem, guestData, addSuggestTour } = store
+const { getSuggestTour } = storeToRefs(store)
 const item = ref({
   name: '',
   price: 0,
@@ -31,6 +33,13 @@ const onAddItem = () => {
 function onDeleteItem(itemIndex) {
   deleteItem(itemIndex)
 }
+function onChangeSuggestTour(tour) {
+  const suggestTour = tour.map((id) => {
+    return getSuggestTour.value.find((tour) => tour.id === id)
+  })
+}
+
+console.log(getSuggestTour)
 </script>
 
 <script setup></script>
@@ -64,7 +73,7 @@ function onDeleteItem(itemIndex) {
     <el-form-item label="Hotel pick up">
       <el-input v-model="guestData.hotel" type="text" />
     </el-form-item>
-    <el-form-item label="Hotel pick up">
+    <el-form-item label="Note">
       <el-input v-model="guestData.note" :rows="2" type="textarea" placeholder="Note..." />
     </el-form-item>
 
@@ -85,6 +94,25 @@ function onDeleteItem(itemIndex) {
         />
       </div>
     </el-form-item>
+    <!-- Search suggest tour -->
+    <el-form-item label="Suggest tours"
+      ><el-select
+        v-model="guestData.selectedSuggestTour"
+        multiple
+        filterable
+        allow-create
+        default-first-option
+        :reserve-keyword="false"
+        placeholder="Choose suggest tours"
+        style="width: 100%"
+      >
+        <el-option
+          v-for="item in getSuggestTour"
+          :key="item.id"
+          :label="item.tourName"
+          :value="item.id"
+        /> </el-select
+    ></el-form-item>
   </el-form>
   <el-divider />
   <el-form label-width="auto" style="max-width: 600px" class="flex flex-col">

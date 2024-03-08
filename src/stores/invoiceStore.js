@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('invoice', () => {
+export const useInvoiceStore = defineStore('invoice', () => {
   const guestData = ref({
     name: '',
     email: '',
@@ -11,19 +11,24 @@ export const useCounterStore = defineStore('invoice', () => {
     note: '',
     discountType: true, // true for percentage, false for fixed amount
     discount: '',
-    items: []
+    items: [],
+    selectedSuggestTour: []
   })
+
+  const suggestTours = ref([])
 
   // Actions
   function addItem(item) {
-    console.log(item)
     guestData.value.items.push(item)
-    console.log(guestData.value.items)
   }
 
   function deleteItem(index) {
     guestData.value.items.splice(index, 1)
     if (guestData.value.items.length === 0) guestData.value.discount = ''
+  }
+
+  function setSuggestTour(tours) {
+    suggestTours.value.push(tours)
   }
 
   // Getters
@@ -40,6 +45,23 @@ export const useCounterStore = defineStore('invoice', () => {
       : total - guestData.value.discount
     return Number(discountPrice)
   })
+  const getSuggestTour = computed(() => suggestTours.value)
 
-  return { guestData, addItem, deleteItem, paymentTotal, paymentTotalWithDiscount }
+  const getSelectedTour = computed(() =>
+    guestData.value.selectedSuggestTour.map((tour) =>
+      suggestTours.value.find((item) => item.id === tour)
+    )
+  )
+
+  return {
+    guestData,
+    suggestTours,
+    addItem,
+    deleteItem,
+    paymentTotal,
+    paymentTotalWithDiscount,
+    setSuggestTour,
+    getSuggestTour,
+    getSelectedTour
+  }
 })
