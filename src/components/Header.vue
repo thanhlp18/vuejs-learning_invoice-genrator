@@ -24,10 +24,7 @@
     </div>
     <div class="col-span-1"></div>
     <div class="col-span-3">
-      <img
-        src="https://fme.travel/uploads/2022/05/fabulous-mekong-eco-tours-logo.png"
-        class="w-60%"
-      />
+      <img src="../assets/fabulous-mekong-eco-tours-logo.png" class="w-60%" />
     </div>
   </header>
 </template>
