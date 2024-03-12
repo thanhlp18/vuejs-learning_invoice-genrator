@@ -4,12 +4,12 @@ Learning Vue JS project: Build a invoice generator with suggest next tour for cl
 
 ## Table of Contents
 
-- [Library and Framework](#Library and Framework)
+- [Library and Framework](#Library_and_Framework)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
 
-## Library and Framework
+## Library_and_Framework
 
 1. VueJS
 2. Pinia
